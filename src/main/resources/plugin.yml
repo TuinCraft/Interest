@@ -1,3 +1,26 @@
 name: ${pom.name}
 main: com.seiken.interest.Interest
 version: ${pom.version}
+description: >
+             Mark locations on the map with custom names.
+commands:
+  mark:
+    description: Mark the current place
+    usage: |
+           /<command> [place]
+           Example: /<command>
+  unmark:
+    description: Unmark the current place
+    usage: |
+           /<command>
+           Example: /<command>
+  nearest:
+    description: Find out the nearest mark
+    usage: |
+           /<command>
+           Example: /<command>
+  who:
+    description: Find out where people are
+    usage: |
+           /<command> [player]
+           Example: /<command> Dutchy_

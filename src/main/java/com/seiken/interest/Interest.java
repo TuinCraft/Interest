@@ -2,6 +2,8 @@ package com.seiken.interest;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -25,12 +27,15 @@ public class Interest extends JavaPlugin {
     private final Places places = new Places( this );
     private final Config config = new Config( this );
     
+    private static final Logger log = Logger.getLogger("Minecraft");
+    
     private PlaceTree placeTree = null;
     private HashMap< Player, Place > current = new HashMap< Player, Place >();
     private HashMap< Player, Long > times = new HashMap< Player, Long >();
 
     public void onEnable()
     {
+    	log.log(Level.INFO, this.getDescription().getFullName() + " is enabled!");
     	updatePlaces();
         getServer().getPluginManager().registerEvent( Event.Type.PLAYER_JOIN,    player,  Priority.Normal, this );
         getServer().getPluginManager().registerEvent( Event.Type.PLAYER_QUIT,    player,  Priority.Normal, this );
