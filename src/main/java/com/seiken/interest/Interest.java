@@ -46,6 +46,7 @@ public class Interest extends JavaPlugin {
 
     public void onDisable()
     {
+    	log.log(Level.INFO, this.getDescription().getFullName() + " is disabled!");
     }
     
     @Override
@@ -76,7 +77,7 @@ public class Interest extends JavaPlugin {
     		if ( args.length <= 0 )
     			this.markPlace( p, null, -1, -1, -1, -1 );
     		else {
-    			String[] split = args[ 0 ].split( " " );
+    			String[] split = args;
     			int r = -1;
     			int x = -1;
     			int y = -1;
@@ -123,7 +124,13 @@ public class Interest extends JavaPlugin {
     				}
     			}
     			
-    			this.markPlace( p, Interest.safeMessage( args[ 0 ].split( " ", n + 1 )[ n ].replaceAll( "##", "§" ) ), r, x, y, z );
+    			String newArgs = args[n];
+    			for(int i = n+1; i < args.length; i++)
+    			{
+    				newArgs += " " + args[i];
+    			}
+    					
+    			this.markPlace( p, Interest.safeMessage( newArgs.replaceAll( "##", "§" ) ), r, x, y, z );
     		}
     		b = true;
     	}
