@@ -1,6 +1,7 @@
 package com.seiken.interest;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -63,16 +64,29 @@ public class Interest extends JavaPlugin {
 		}
 		
 		dataFile = new File(folder.getPath() + File.separator + Interest.DATA_FILE);
+		log.log(Level.INFO, "[Interest] Data file: " + dataFile.getPath());
 		configFile = new File(folder.getPath() + File.separator + Interest.CONFIG_FILE);
-		if ( !dataFile.canWrite() ) {
-			result = false;
-		}
-		if( !configFile.canRead()) {
-			result = false;
+		log.log(Level.INFO, "[Interest] Config file: " + configFile.getPath());
+		try {
+			if( !dataFile.exists() )
+					dataFile.createNewFile();
+			if( !configFile.exists() )
+				configFile.createNewFile();
+		
+				
+			if ( !dataFile.canWrite() ) {
+				result = false;
+			}
+			if( !configFile.canRead()) {
+				result = false;
+			}
+		
+		} catch (IOException e) {
+			log.log(Level.SEVERE, "[Interest] Error creating data files: " + e.getMessage());
 		}
 		
 		if(!result)
-			log.log(Level.SEVERE, "[Interest] Failed to initialize data files!");
+			log.log(Level.INFO, "[Interest] Failed to initialize data files!");
 		
 	}
     

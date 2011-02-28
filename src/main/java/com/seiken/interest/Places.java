@@ -24,11 +24,11 @@ public class Places {
 		    boolean b = true;
 		    boolean v1_1 = false;
 		    String s = reader.readLine();
-		    if ( s.equals( Interest.VERSION_1_1 ) ) {
+		    if ( s != null && s.equals( Interest.VERSION_1_1 ) ) {
 		    	v1_1 = true;
 		    	s = reader.readLine();
 		    }
-		    while ( b ) {
+		    while ( s != null ) {
 		    	try {
 		    		places.add( new Place( s, v1_1 ) );
 		    	}
@@ -36,7 +36,6 @@ public class Places {
 		    		log.log(Level.INFO, "[Interest] Received exception: " + e.getMessage());
 		    	}
 		    	s = reader.readLine();
-		    	b = s != null;
 		    }
 		    reader.close();
 		}
@@ -53,7 +52,7 @@ public class Places {
 	void updateData()
 	{
     	try {
-    		plugin.getDataFolder().mkdir();
+    		//plugin.getDataFolder().mkdir();
     	    BufferedWriter writer = new BufferedWriter( new FileWriter( plugin.getDataFile() ) );
     	    writer.write( Interest.VERSION_1_1 + "\n" );
     	    for ( Place p : places )

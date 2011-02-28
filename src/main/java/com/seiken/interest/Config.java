@@ -31,9 +31,8 @@ public class Config {
 		try {
 		    BufferedReader reader = new BufferedReader( new FileReader( plugin.getConfigFile() ) );
 		    
-		    boolean b = true;
 		    String s = reader.readLine();
-		    while ( b ) {
+		    while ( s != null ) {
 		    	try {
 			    	String[] args = s.split( "=", 2 );
 			    	if ( args[ 0 ].equalsIgnoreCase( opsOnlyKey ) )
@@ -53,9 +52,9 @@ public class Config {
 		    	}
 		    	catch ( NumberFormatException e )
 		    	{
+		    		log.log(Level.INFO, "[Interest] Invalid config file");
 		    	}
 		    	s = reader.readLine();
-		    	b = s != null;
 		    }
 		    reader.close();
 		}
