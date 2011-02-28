@@ -62,8 +62,8 @@ public class Interest extends JavaPlugin {
 			}
 		}
 		
-		dataFile = new File(folder.getPath() + File.pathSeparator + Interest.DATA_FILE);
-		configFile = new File(folder.getPath() + File.pathSeparator + Interest.CONFIG_FILE);
+		dataFile = new File(folder.getPath() + File.separator + Interest.DATA_FILE);
+		configFile = new File(folder.getPath() + File.separator + Interest.CONFIG_FILE);
 		if ( !dataFile.canWrite() ) {
 			result = false;
 		}
