@@ -7,17 +7,20 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Places {
 	
 	private final Interest plugin;
 	private ArrayList< Place > places = new ArrayList< Place >();
+	private static final Logger log = Logger.getLogger("Minecraft");
 	
 	public Places( final Interest plugin )
 	{
 		this.plugin = plugin;
 		try {
-		    BufferedReader reader = new BufferedReader( new FileReader( plugin.getDataFolder() + File.separator + Interest.DATA_FILE ) );
+		    BufferedReader reader = new BufferedReader( new FileReader( plugin.getDataFile() ) );
 		    boolean b = true;
 		    boolean v1_1 = false;
 		    String s = reader.readLine();
@@ -30,6 +33,7 @@ public class Places {
 		    		places.add( new Place( s, v1_1 ) );
 		    	}
 		    	catch ( Exception e ) {
+		    		log.log(Level.INFO, "[Interest] Received exception: " + e.getMessage());
 		    	}
 		    	s = reader.readLine();
 		    	b = s != null;
@@ -37,6 +41,7 @@ public class Places {
 		    reader.close();
 		}
 		catch ( IOException e ) {
+			log.log(Level.SEVERE, "[Interest] Error opening " + plugin.getDataFile().getPath() );
 		}
 	}
 	
@@ -49,13 +54,14 @@ public class Places {
 	{
     	try {
     		plugin.getDataFolder().mkdir();
-    	    BufferedWriter writer = new BufferedWriter( new FileWriter( plugin.getDataFolder() + File.separator + Interest.DATA_FILE ) );
+    	    BufferedWriter writer = new BufferedWriter( new FileWriter( plugin.getDataFile() ) );
     	    writer.write( Interest.VERSION_1_1 + "\n" );
     	    for ( Place p : places )
     	    	writer.write( p.saveString() + "\n" );
     	    writer.close();
     	}
     	catch ( IOException e ) {
+    		log.log(Level.SEVERE, "[Interest] Error opening " + plugin.getDataFile().getPath() );
     	}
 	}
 	

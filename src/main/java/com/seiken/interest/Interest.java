@@ -24,27 +24,70 @@ public class Interest extends JavaPlugin {
 
     private final InterestPlayer player = new InterestPlayer( this );
     private final InterestVehicle vehicle = new InterestVehicle( this );
-    private final Places places = new Places( this );
-    private final Config config = new Config( this );
+    private Places places;
+    private Config config;
     
     private static final Logger log = Logger.getLogger("Minecraft");
     
     private PlaceTree placeTree = null;
     private HashMap< Player, Place > current = new HashMap< Player, Place >();
     private HashMap< Player, Long > times = new HashMap< Player, Long >();
+    
+    private File dataFile;
+    private File configFile;
 
     public void onEnable()
-    {
-    	log.log(Level.INFO, this.getDescription().getFullName() + " is enabled!");
+    {    	
+    	initFiles();
+    	places = new Places( this );
+    	config = new Config( this );
+    	
     	updatePlaces();
         getServer().getPluginManager().registerEvent( Event.Type.PLAYER_JOIN,    player,  Priority.Normal, this );
         getServer().getPluginManager().registerEvent( Event.Type.PLAYER_QUIT,    player,  Priority.Normal, this );
         getServer().getPluginManager().registerEvent( Event.Type.PLAYER_MOVE,    player,  Priority.Normal, this );
         getServer().getPluginManager().registerEvent( Event.Type.VEHICLE_MOVE,   vehicle, Priority.Normal, this );
+        
+        log.log(Level.INFO, this.getDescription().getFullName() + " is enabled!");
     }
 
 
-    public void onDisable()
+    private void initFiles() {
+		File folder = this.getDataFolder();
+		boolean result = true;
+		if(!folder.exists()){
+			if(!folder.mkdir()){
+				result = false;
+				log.log(Level.SEVERE, "[Interest] Could not create data folder!");
+			}
+		}
+		
+		dataFile = new File(folder.getPath() + File.pathSeparator + Interest.DATA_FILE);
+		configFile = new File(folder.getPath() + File.pathSeparator + Interest.CONFIG_FILE);
+		if ( !dataFile.canWrite() ) {
+			result = false;
+		}
+		if( !configFile.canRead()) {
+			result = false;
+		}
+		
+		if(!result)
+			log.log(Level.SEVERE, "[Interest] Failed to initialize data files!");
+		
+	}
+    
+    public File getDataFile()
+    {
+    	return this.dataFile;
+    }
+    
+    public File getConfigFile()
+    {
+    	return this.configFile;
+    }
+
+
+	public void onDisable()
     {
     	log.log(Level.INFO, this.getDescription().getFullName() + " is disabled!");
     }

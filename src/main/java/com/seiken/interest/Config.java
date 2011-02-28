@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Config {
 	
@@ -23,9 +25,11 @@ public class Config {
 	private static final String whoLinePlaceKey = "who-line-place";
 	private static final String whoLineNoPlaceKey = "who-line-no-place";
 	
+	private static final Logger log = Logger.getLogger("Minecraft");
+	
 	public Config( final Interest plugin ) {
 		try {
-		    BufferedReader reader = new BufferedReader( new FileReader( plugin.getDataFolder() + File.separator + Interest.CONFIG_FILE ) );
+		    BufferedReader reader = new BufferedReader( new FileReader( plugin.getConfigFile() ) );
 		    
 		    boolean b = true;
 		    String s = reader.readLine();
@@ -56,6 +60,7 @@ public class Config {
 		    reader.close();
 		}
 		catch ( IOException e ) {
+			log.log(Level.SEVERE, "[Interest] Could not read config file: " + e.getMessage());
 		}
 	}
 	
