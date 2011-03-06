@@ -65,6 +65,8 @@ public class Place {
 
 	public float distance( Location loc )
 	{
+		if(loc.getWorld() != this.loc.getWorld())
+			return Float.MAX_VALUE;
 		float r = 0;
 		r += ( float )( getX() - loc.getBlockX() ) * ( float )( getX() - loc.getBlockX() );
 		r += ( float )( getY() - loc.getBlockY() ) * ( float )( getY() - loc.getBlockY() );

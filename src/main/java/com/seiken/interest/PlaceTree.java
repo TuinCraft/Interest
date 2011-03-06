@@ -136,7 +136,7 @@ public class PlaceTree {
 	
 	public PlaceTree( List<Place> list )
 	{
-		if ( list.size() > 0 )
+		if ( list != null && list.size() > 0 )
 			root = new Node( list, 0 );
 	}
 	

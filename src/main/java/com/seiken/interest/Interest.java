@@ -2,7 +2,10 @@ package com.seiken.interest;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,7 +35,7 @@ public class Interest extends JavaPlugin {
     
     private static final Logger log = Logger.getLogger("Minecraft");
     
-    private PlaceTree placeTree = null;
+    private Map<String, PlaceTree> placeTrees = new HashMap<String, PlaceTree>();
     private HashMap< Player, Place > current = new HashMap< Player, Place >();
     private HashMap< Player, Long > times = new HashMap< Player, Long >();
     
@@ -57,6 +60,11 @@ public class Interest extends JavaPlugin {
     public World getFirstWorld()
     {
     	return this.getServer().getWorlds().get(0);
+    }
+    
+    public World getWorld(String worldname)
+    {
+    	return this.getServer().getWorld(worldname);
     }
 
 
@@ -232,9 +240,14 @@ public class Interest extends JavaPlugin {
 
     private Place nearestPlace( Player player )
     {
-    	if ( placeTree == null )
+    	if ( placeTrees == null )
     		return null;
-    	return placeTree.nearest( player.getLocation() );
+    	PlaceTree pt = placeTrees.get(player.getLocation().getWorld().getName());
+    	if(pt == null){
+    		updatePlaces();
+    		pt = placeTrees.get(player.getLocation().getWorld().getName());
+    	}
+    	return pt.nearest( player.getLocation() );
     }
     
     public void updateCurrent( Player player )
@@ -368,8 +381,26 @@ public class Interest extends JavaPlugin {
     
     private void updatePlaces()
     {
-    	placeTree = new PlaceTree( places.getPlaces() );
-    	places.updateData();
+    	List<Place> places = this.places.getPlaces();
+    	Map<String, List<Place>> worldToList = new HashMap<String, List<Place>>();
+    	
+    	for(Place p : places)
+    	{
+    		List<Place> l = worldToList.get(p.getWorldName());
+    		if(l == null){
+    			l = new ArrayList<Place>();
+    			worldToList.put(p.getWorldName(),l);
+    		}
+    		l.add(p);
+    	}
+    	
+    	for(World w : this.getServer().getWorlds())
+    	{
+    		log.info("[Interest] Tracking places for world: " + w.getName());
+    		placeTrees.put(w.getName(), new PlaceTree(worldToList.get(w.getName())));
+    	}
+    	
+    	this.places.updateData();
     }
     
 }

@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import com.seiken.interest.version.PlaceReader;
 import com.seiken.interest.version.Version1_1Reader;
 import com.seiken.interest.version.Version1_1Writer;
+import com.seiken.interest.version.Version1_2Reader;
 import com.seiken.interest.version.Version1_2Writer;
 
 public class Places {
@@ -22,11 +23,12 @@ public class Places {
 	private List<Place> places = new ArrayList<Place>();
 	private static final Logger log = Logger.getLogger("Minecraft");
 
-	private static final PlaceReader[] versions = new PlaceReader[1];
+	private static final PlaceReader[] versions = new PlaceReader[2];
 
 	public Places(final Interest plugin) {
 		this.plugin = plugin;
 		versions[0] = new Version1_1Reader(plugin);
+		versions[1] = new Version1_2Reader(plugin);
 
 		try {
 
@@ -58,7 +60,7 @@ public class Places {
 			// plugin.getDataFolder().mkdir();
 			BufferedWriter writer = new BufferedWriter(new FileWriter(
 					plugin.getDataFile()));
-			new Version1_1Writer().write(writer, places);
+			new Version1_2Writer().write(writer, places);
 			writer.close();
 		} catch (IOException e) {
 			log.log(Level.SEVERE, "[Interest] Error opening "
