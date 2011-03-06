@@ -3,6 +3,7 @@ package com.seiken.interest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import org.bukkit.Location;
 
@@ -54,30 +55,30 @@ public class PlaceTree {
 		private Node right = null;
 		private int depth = 0;
 		
-		public Node( ArrayList< Place > places, int depth )
+		public Node( List<Place> list, int depth )
 		{
 			this.depth = depth;
 			if ( depth % 3 == 0 )
-				Collections.sort( places, xSort );
+				Collections.sort( list, xSort );
 			if ( depth % 3 == 1 )
-				Collections.sort( places, ySort );
+				Collections.sort( list, ySort );
 			if ( depth % 3 == 2 )
-				Collections.sort( places, zSort );
+				Collections.sort( list, zSort );
 			
-			int median = places.size() / 2;
-			place = places.get( median );
+			int median = list.size() / 2;
+			place = list.get( median );
 			
 			if ( median > 0 ) {
 				ArrayList< Place > a = new ArrayList< Place >();
 				for ( int i = 0; i < median; i++ )
-					a.add( places.get( i ) );
+					a.add( list.get( i ) );
 				left = new Node( a, depth + 1 );
 			}
 			
-			if ( median + 1 < places.size() ) {
+			if ( median + 1 < list.size() ) {
 				ArrayList< Place > a = new ArrayList< Place >();
-				for ( int i = median + 1; i < places.size(); i++ )
-					a.add( places.get( i ) );
+				for ( int i = median + 1; i < list.size(); i++ )
+					a.add( list.get( i ) );
 				right = new Node( a, depth + 1 );
 			}
 		}
@@ -133,10 +134,10 @@ public class PlaceTree {
 	
 	private Node root = null;
 	
-	public PlaceTree( ArrayList< Place > places )
+	public PlaceTree( List<Place> list )
 	{
-		if ( places.size() > 0 )
-			root = new Node( places, 0 );
+		if ( list.size() > 0 )
+			root = new Node( list, 0 );
 	}
 	
 	public Place nearest( Location loc )

@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Location;
 import org.bukkit.Server;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -20,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Interest extends JavaPlugin {
 	
 	public static final String VERSION_1_1 = "version1.1";
+	public static final String VERSION_1_2 = "version1.2";
 	public static final String DATA_FILE = "places.txt";
 	public static final String CONFIG_FILE = "config.txt";
 
@@ -50,6 +52,11 @@ public class Interest extends JavaPlugin {
         getServer().getPluginManager().registerEvent( Event.Type.VEHICLE_MOVE,   vehicle, Priority.Normal, this );
         
         log.log(Level.INFO, this.getDescription().getFullName() + " is enabled!");
+    }
+    
+    public World getFirstWorld()
+    {
+    	return this.getServer().getWorlds().get(0);
     }
 
 
