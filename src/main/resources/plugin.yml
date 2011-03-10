@@ -5,10 +5,12 @@ description: >
              Mark locations on the map with custom names.
 commands:
   mark:
-    description: Mark the current place
+    description: "Mark the current place, use r: to specify a maximum radius and xyz to specify a maximum on each axis."
     usage: |
-           /<command> [place]
-           Example: /<command>
+           /<command> [r:## | x\:## y:## z:##] place
+           Example: /<command> place
+           Example: /<command> r:5 place
+           Example: /<command> x:4 y:6 z:7 place
   unmark:
     description: Unmark the current place
     usage: |
@@ -20,6 +22,7 @@ commands:
            /<command>
            Example: /<command>
   who:
+    aliases: [where]
     description: Find out where people are
     usage: |
            /<command> [player]
