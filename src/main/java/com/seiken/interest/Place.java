@@ -14,37 +14,50 @@ public class Place {
 	private int yDist;
 	private int zDist;
 	private String name;
+	private String worldName;
 	
-	public Place( Location loc, int radius, String name )
+	public Place( Location loc, String name)
 	{
 		this.loc = loc;
-		this.radius = radius <= 0 ? -1 : radius;
-		xDist = -1;
-		yDist = -1;
-		zDist = -1;
 		this.name = name;
-	}
-	
-	public Place(Location loc, String name)
-	{
-		this.loc = loc;
 		this.radius = -1;
 		xDist = -1;
 		yDist = -1;
 		zDist = -1;
-		this.name = name;
+		//this.worldName = "world";
+	}
+	
+	public Place( Location loc, int radius, String name )
+	{
+		this(loc, name);
+		this.radius = radius <= 0 ? -1 : radius;
+	}
+	
+	public Place( Location loc, int radius, String name, String worldName )
+	{
+		this(loc, radius, name);
+		this.worldName = worldName;
+	}
+	
+	public Place(Location loc, String name, String worldName)
+	{
+		this(loc, name);
+		this.worldName = worldName;
 	}
 	
 	public Place( Location loc, int xDist, int yDist, int zDist, String name )
 	{
-		this.loc = loc;
-		radius = -1;
+		this(loc, name);
 		this.xDist = xDist <= 0 ? -1 : xDist;
 		this.yDist = yDist <= 0 ? -1 : yDist;
 		this.zDist = zDist <= 0 ? -1 : zDist;
-		this.name = name;
 	}
 	
+	public Place( Location loc, int xDist, int yDist, int zDist, String name, String worldName)
+	{
+		this(loc, xDist, yDist, zDist, name);
+		this.worldName = worldName;
+	}
 //	public Place( String s, boolean v1_1 )
 //	{
 //		radius = -1;
@@ -91,12 +104,20 @@ public class Place {
 	
 	public World getWorld()
 	{
+		checkWorld();
 		return loc.getWorld();
+	}
+	
+	private void checkWorld()
+	{
+		if(loc.getWorld() == null)
+			loc.setWorld(Interest.getInstance().getWorld(this.worldName));
 	}
 	
 	public String getWorldName()
 	{
-		return this.getWorld().getName();
+		World w = this.getWorld();
+		return w == null ? this.worldName : w.getName();
 	}
 	
 	public int getRadiusValue()
@@ -161,6 +182,10 @@ public class Place {
 		if ( hasZDist() )
 			s += ", z:" + Integer.toString( zDist );
 		return s + "]";
+	}
+	
+	public String toString(){
+		return "Location: " + loc.toString() + " [" + this.getName() + "] in world " + this.getWorldName();
 	}
 	
 }

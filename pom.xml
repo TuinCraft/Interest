@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>TuinCraft</groupId>
   <artifactId>Interest</artifactId>
-  <version>1.5</version>
+  <version>1.6</version>
   
   <build>
     <plugins>
@@ -32,6 +32,13 @@
   		<scope>compile</scope>
   		<optional>true</optional>
   	</dependency>
+	<dependency>
+	    <groupId>me.taylorkelly.help</groupId>
+	    <artifactId>Help</artifactId>
+	    <version>0.2</version>
+	    <scope>system</scope>
+	    <systemPath>${project.basedir}/lib/Help.jar</systemPath>
+	</dependency>
   </dependencies>
   <dependencyManagement>
   	<dependencies>

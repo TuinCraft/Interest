@@ -9,14 +9,18 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import me.taylorkelly.help.Help;
+
 import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -41,9 +45,12 @@ public class Interest extends JavaPlugin {
     
     private File dataFile;
     private File configFile;
+	private static Interest instance;
 
     public void onEnable()
-    {    	
+    {
+    	if(instance == null)
+    		instance = this;
     	initFiles();
     	places = new Places( this );
     	config = new Config( this );
@@ -55,9 +62,39 @@ public class Interest extends JavaPlugin {
         getServer().getPluginManager().registerEvent( Event.Type.VEHICLE_MOVE,   vehicle, Priority.Normal, this );
         
         log.log(Level.INFO, this.getDescription().getFullName() + " is enabled!");
+        
+        registerHelp();
     }
     
-    public World getFirstWorld()
+    public static Interest getInstance(){
+    	return instance;
+    }
+    
+    private void registerHelp() {
+		Plugin test = this.getServer().getPluginManager().getPlugin("Help");
+		if(test != null)
+		{
+			Help help = (Help) test;
+			
+			PluginCommand[] commands = new PluginCommand[4];
+			
+			commands[0] = this.getCommand("mark");
+			commands[1] = this.getCommand("unmark");
+			commands[2] = this.getCommand("who");
+			commands[3] = this.getCommand("nearest");
+			
+			for(PluginCommand pc : commands)
+			{
+				if(pc != null)
+				{
+					help.registerCommand(pc.getName(), pc.getDescription(), this, true);
+				}
+			}
+			
+		}
+	}
+
+	public World getFirstWorld()
     {
     	return this.getServer().getWorlds().get(0);
     }
@@ -66,6 +103,8 @@ public class Interest extends JavaPlugin {
     {
     	return this.getServer().getWorld(worldname);
     }
+    
+    
 
 
     private void initFiles() {
@@ -381,7 +420,9 @@ public class Interest extends JavaPlugin {
     
     private void updatePlaces()
     {
+    	
     	List<Place> places = this.places.getPlaces();
+    	log.info(places.toString());
     	Map<String, List<Place>> worldToList = new HashMap<String, List<Place>>();
     	
     	for(Place p : places)

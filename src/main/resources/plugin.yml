@@ -5,9 +5,9 @@ description: >
              Mark locations on the map with custom names.
 commands:
   mark:
-    description: "Mark the current place, use r: to specify a maximum radius and xyz to specify a maximum on each axis."
+    description: "Mark the current place. Use r: to specify a maximum radius. Use x: y: z: to specify a maximum on each axis."
     usage: |
-           /<command> [r:## | x\:## y:## z:##] place
+           /<command> [r:## | x:## y:## z:##] place
            Example: /<command> place
            Example: /<command> r:5 place
            Example: /<command> x:4 y:6 z:7 place

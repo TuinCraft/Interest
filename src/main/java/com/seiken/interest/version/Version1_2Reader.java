@@ -43,7 +43,7 @@ public class Version1_2Reader implements PlaceReader {
 					int yDist = Integer.parseInt(args[5]);
 					int zDist = Integer.parseInt(args[6]);
 					name = args[7].replaceAll("##", "§");
-					p = new Place(new Location(plugin.getWorld(worldname), x, y, z), xDist, yDist, zDist, name);
+					p = new Place(new Location(plugin.getWorld(worldname), x, y, z), xDist, yDist, zDist, name, worldname);
 				} else {
 					String[] args = s.split(" ", 6);
 					String worldname = args[0];
@@ -52,7 +52,7 @@ public class Version1_2Reader implements PlaceReader {
 					z = Integer.parseInt(args[3]);
 					radius = Integer.parseInt(args[4]);
 					name = args[5].replaceAll("##", "§");
-					p = new Place(new Location(plugin.getWorld(worldname), x, y, z), radius, name);
+					p = new Place(new Location(plugin.getWorld(worldname), x, y, z), radius, name, worldname);
 				}
 				places.add(p);
 			}
