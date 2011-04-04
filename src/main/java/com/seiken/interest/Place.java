@@ -78,7 +78,7 @@ public class Place {
 
 	public float distance( Location loc )
 	{
-		if(loc.getWorld() != this.loc.getWorld())
+		if(loc.getWorld() == null || loc.getWorld() != this.loc.getWorld())
 			return Float.MAX_VALUE;
 		float r = 0;
 		r += ( float )( getX() - loc.getBlockX() ) * ( float )( getX() - loc.getBlockX() );
@@ -104,15 +104,15 @@ public class Place {
 	
 	public World getWorld()
 	{
-		checkWorld();
+		//checkWorld();
 		return loc.getWorld();
 	}
 	
-	private void checkWorld()
-	{
-		if(loc.getWorld() == null)
-			loc.setWorld(Interest.getInstance().getWorld(this.worldName));
-	}
+//	private void checkWorld()
+//	{
+//		if(loc.getWorld() == null)
+//			loc.setWorld(Interest.getInstance().getWorld(this.worldName));
+//	}
 	
 	public String getWorldName()
 	{

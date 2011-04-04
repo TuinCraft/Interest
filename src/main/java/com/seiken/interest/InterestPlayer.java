@@ -1,9 +1,6 @@
 package com.seiken.interest;
 
-import org.bukkit.event.player.PlayerChatEvent;
-import org.bukkit.event.player.PlayerEvent;
-import org.bukkit.event.player.PlayerListener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.*;
 
 public class InterestPlayer extends PlayerListener {
 
@@ -15,13 +12,12 @@ public class InterestPlayer extends PlayerListener {
     }
     
     @Override
-    public void onPlayerJoin( PlayerEvent event )
-    {
-        plugin.updateCurrent( event.getPlayer() );
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        plugin.updateCurrent(event.getPlayer());
     }
-    
+
     @Override
-    public void onPlayerQuit( PlayerEvent event )
+    public void onPlayerQuit( PlayerQuitEvent event )
     {
     	plugin.removeCurrent( event.getPlayer() );
     }
