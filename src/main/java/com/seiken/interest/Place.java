@@ -104,15 +104,15 @@ public class Place {
 	
 	public World getWorld()
 	{
-		//checkWorld();
+		checkWorld();
 		return loc.getWorld();
 	}
 	
-//	private void checkWorld()
-//	{
-//		if(loc.getWorld() == null)
-//			loc.setWorld(Interest.getInstance().getWorld(this.worldName));
-//	}
+	private void checkWorld()
+	{
+		if(loc.getWorld() == null)
+			loc.setWorld(Interest.getInstance().getWorld(this.worldName));
+	}
 	
 	public String getWorldName()
 	{

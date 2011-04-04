@@ -422,7 +422,7 @@ public class Interest extends JavaPlugin {
     {
     	
     	List<Place> places = this.places.getPlaces();
-    	log.info(places.toString());
+    	//log.info(places.toString());
     	Map<String, List<Place>> worldToList = new HashMap<String, List<Place>>();
     	
     	for(Place p : places)
@@ -440,6 +440,8 @@ public class Interest extends JavaPlugin {
     		log.info("[Interest] Tracking places for world: " + w.getName());
     		placeTrees.put(w.getName(), new PlaceTree(worldToList.get(w.getName())));
     	}
+
+	    //System.out.println(worldToList.get("netherworld"));
     	
     	this.places.updateData();
     }
